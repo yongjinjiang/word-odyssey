@@ -1,0 +1,10 @@
+.starter-grid button:disabled,.theme-grid button:disabled{opacity:.42;cursor:not-allowed;filter:saturate(.35)}
+.starter-grid button em,.theme-grid button em{font-style:normal;font-size:6px;letter-spacing:.08em;color:#a89262;margin-top:5px}
+.theme-grid button em{position:relative;display:block}.portals button:disabled{opacity:.38;cursor:not-allowed}
+.stable-world{isolation:isolate}.truth-edges{position:absolute;z-index:2;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.truth-edges .edge{vector-effect:non-scaling-stroke;fill:none;stroke-linecap:round}.truth-edges .semantic{stroke:#91edb6;stroke-width:2;opacity:.72;filter:drop-shadow(0 0 4px rgba(102,235,157,.65))}
+.truth-edges .semantic.relation-opposite{stroke:#ff9c8e;stroke-dasharray:8 5}.truth-edges .semantic.relation-related{stroke:#bba8ff;stroke-dasharray:2 6}.truth-edges .semantic.relation-collocation{stroke:#ffd886;stroke-width:3}
+.truth-edges .traversed{stroke:#d7bb7c;stroke-width:2;stroke-dasharray:7 5;opacity:.62;filter:drop-shadow(0 0 2px rgba(255,216,134,.28))}.truth-edges .narrative{stroke:#c2a8ff;stroke-width:2;stroke-dasharray:2 6;opacity:.55}.truth-edges .narrative.active{opacity:.9;filter:drop-shadow(0 0 5px rgba(194,168,255,.65))}
+.stable-node{position:absolute;z-index:6;transform:translate(-50%,-50%);transition:left .7s cubic-bezier(.2,.8,.2,1),top .7s cubic-bezier(.2,.8,.2,1)}.stable-node.is-current{z-index:9}.stable-here{position:absolute;white-space:nowrap;left:50%;top:calc(100% + 11px);transform:translateX(-50%);font-size:7px;letter-spacing:.14em;color:var(--gold)}
+.stable-world .word-node.current{min-width:154px;min-height:103px}.stable-world .word-node.available{min-width:112px;min-height:78px}.stable-world .region-orb{z-index:1;pointer-events:none}.stable-world .map-title,.stable-world .map-legend,.stable-world .story-ready,.stable-world .resume-float,.stable-world .preview-card,.stable-world .final-card{z-index:20}
+.story-view .stable-node{z-index:7}.story-view .story-panel{z-index:20}.map-view .truth-edges{z-index:3}.map-view .word-node.story-word{transform:scale(.78)}.final-map .stable-node{z-index:8}
