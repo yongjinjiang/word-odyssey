@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { candidates, COORDS, DIRECTOR_OUTCOMES, edgeMatchesHistory, pauseState, recordTraversal, resumeState, storyBeat } from './state.js';
+import { candidates, COORDS, DIRECTOR_OUTCOMES, edgeMatchesHistory, pauseState, recordTraversal, resumeState, storyBeat, storyReady } from './state.js';
 
 describe('prototype truth regressions', () => {
   it('supports the canonical semantic routes and no false portal edge', () => {
@@ -41,6 +41,13 @@ describe('prototype truth regressions', () => {
       expect(nextLayer.length, `${destination} should reveal more map words`).toBeGreaterThanOrEqual(3);
       expect(nextLayer.some(word => !firstLayer.has(word))).toBe(true);
     }
+  });
+
+  it('unlocks story building after exploring any word in the second island', () => {
+    expect(storyReady(['勇敢', '地图'], true)).toBe(false);
+    expect(storyReady(['勇敢', '地图', '路线'], true)).toBe(true);
+    expect(storyReady(['勇敢', '地图', '线索'], true)).toBe(true);
+    expect(storyReady(['勇敢', '地图', '路线'], false)).toBe(false);
   });
 
   it('uses selected anchors and avatar in deterministic story content', () => {

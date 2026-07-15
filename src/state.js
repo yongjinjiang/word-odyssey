@@ -38,6 +38,9 @@ export const COORDS = Object.freeze({
   雾:{x:43,y:36,region:'story'}, 低语:{x:51,y:25,region:'story'}, 石桥:{x:58,y:43,region:'story'}, 耳语:{x:55,y:61,region:'story'}, 罗盘:{x:69,y:58,region:'story'}, 信:{x:63,y:25,region:'story'}, 脚印:{x:72,y:29,region:'story'}, 小声说:{x:43,y:67,region:'story'}, 轻声说:{x:62,y:71,region:'story'}, 悄悄说:{x:49,y:75,region:'story'}
 });
 
+export const storyReady = (visited, hasMapRegion) =>
+  hasMapRegion && visited.some(word => word !== '地图' && COORDS[word]?.region === 'map');
+
 export const candidates = (current, relation) => {
   if (relation === 'similar' && COURAGE_WORDS.includes(current)) return COURAGE_WORDS.filter(x => x !== current);
   if (relation === 'similar' && TIMID_WORDS.includes(current)) return TIMID_WORDS.filter(x => x !== current);
