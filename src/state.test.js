@@ -33,6 +33,16 @@ describe('prototype truth regressions', () => {
     expect(candidates('无畏', 'opposite')).toContain('胆怯');
   });
 
+  it('grows a new curated layer after each first map choice', () => {
+    const firstLayer = new Set(candidates('地图', 'related'));
+
+    for (const destination of firstLayer) {
+      const nextLayer = candidates(destination, 'related').filter(word => word !== '地图');
+      expect(nextLayer.length, `${destination} should reveal more map words`).toBeGreaterThanOrEqual(3);
+      expect(nextLayer.some(word => !firstLayer.has(word))).toBe(true);
+    }
+  });
+
   it('uses selected anchors and avatar in deterministic story content', () => {
     const beat = storyBeat({ beat:0, anchors:['英勇','线索'], avatar:'岚' });
     expect(beat.zh).toContain('岚');

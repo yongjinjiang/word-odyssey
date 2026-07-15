@@ -7,7 +7,7 @@ const themes = [['雾林谜踪','Fog Forest Mystery',true],['太空失联','Lost
 const courageAnchors = ['勇敢','英勇','勇猛','胆怯'];
 const mapAnchors = ['地图','线索','神秘线索'];
 const courageRegion = ['勇敢','英勇','勇猛','胆怯','无畏','大胆','怯懦','胆小'];
-const mapRegion = ['地图','路线','方向','地点','线索','寻找线索','发现线索','重要线索','神秘线索'];
+const mapRegion = ['地图','路线','方向','地点','线索','路径','道路','旅程','北方','前方','出口','山谷','河流','营地','证据','谜题','秘密','寻找线索','发现线索','重要线索','神秘线索'];
 
 function WordNode({ word, status='inactive', onClick, compact=false, anchor=false, story=false }) {
   const data = WORDS[word] || ['', ''];
