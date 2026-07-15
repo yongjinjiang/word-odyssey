@@ -11,6 +11,12 @@ export const RELATIONS = {
   similar: ['近义词', 'Similar'], opposite: ['反义词', 'Opposite'], related: ['相关词', 'Related'], collocation: ['常用搭配', 'Common']
 };
 
+const COURAGE_WORDS = ['勇敢', '英勇', '勇猛', '无畏', '大胆'];
+const TIMID_WORDS = ['胆怯', '怯懦', '胆小'];
+const MAP_WORDS = ['地图', '路线', '方向', '地点', '线索'];
+const CLUE_PHRASES = ['寻找线索', '发现线索', '重要线索', '神秘线索'];
+const WHISPER_WORDS = ['低语', '耳语', '小声说', '轻声说', '悄悄说'];
+
 export const COORDS = Object.freeze({
   勇敢:{x:28,y:39,region:'courage'}, 英勇:{x:15,y:24,region:'courage'}, 勇猛:{x:36,y:18,region:'courage'}, 胆怯:{x:14,y:57,region:'courage'}, 无畏:{x:37,y:59,region:'courage'}, 大胆:{x:45,y:35,region:'courage'}, 怯懦:{x:25,y:68,region:'courage'}, 胆小:{x:7,y:42,region:'courage'},
   地图:{x:67,y:39,region:'map'}, 路线:{x:80,y:61,region:'map'}, 方向:{x:77,y:19,region:'map'}, 地点:{x:91,y:25,region:'map'}, 线索:{x:80,y:37,region:'map'}, 寻找线索:{x:66,y:62,region:'map'}, 发现线索:{x:74,y:72,region:'map'}, 重要线索:{x:90,y:67,region:'map'}, 神秘线索:{x:91,y:48,region:'map'},
@@ -18,11 +24,14 @@ export const COORDS = Object.freeze({
 });
 
 export const candidates = (current, relation) => {
-  if (relation === 'similar' && ['勇敢', '英勇', '勇猛'].includes(current)) return ['勇敢', '英勇', '勇猛', '无畏', '大胆'].filter(x => x !== current);
-  if (relation === 'opposite' && current === '勇猛') return ['胆怯', '怯懦', '胆小'];
-  if (relation === 'related' && current === '地图') return ['路线', '方向', '地点', '线索'];
+  if (relation === 'similar' && COURAGE_WORDS.includes(current)) return COURAGE_WORDS.filter(x => x !== current);
+  if (relation === 'similar' && TIMID_WORDS.includes(current)) return TIMID_WORDS.filter(x => x !== current);
+  if (relation === 'opposite' && COURAGE_WORDS.includes(current)) return TIMID_WORDS;
+  if (relation === 'opposite' && TIMID_WORDS.includes(current)) return COURAGE_WORDS;
+  if (relation === 'related' && MAP_WORDS.includes(current)) return MAP_WORDS.filter(x => x !== current);
   if (relation === 'collocation' && current === '线索') return ['寻找线索', '发现线索', '重要线索', '神秘线索'];
-  if (relation === 'similar' && current === '低语') return ['耳语', '小声说', '轻声说', '悄悄说'];
+  if (relation === 'collocation' && CLUE_PHRASES.includes(current)) return ['线索'];
+  if (relation === 'similar' && WHISPER_WORDS.includes(current)) return WHISPER_WORDS.filter(x => x !== current);
   return [];
 };
 

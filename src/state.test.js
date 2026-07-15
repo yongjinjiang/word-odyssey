@@ -8,6 +8,31 @@ describe('prototype truth regressions', () => {
     expect(candidates('低语', 'similar')).toContain('耳语');
   });
 
+  it('never strands the learner after selecting an available destination', () => {
+    const routes = [
+      ['勇敢', 'similar'],
+      ['勇猛', 'opposite'],
+      ['地图', 'related'],
+      ['线索', 'collocation'],
+      ['低语', 'similar'],
+    ];
+
+    for (const [from, relation] of routes) {
+      for (const destination of candidates(from, relation)) {
+        expect(
+          Object.keys({ similar: 1, opposite: 1, related: 1, collocation: 1 })
+            .some(nextRelation => candidates(destination, nextRelation).length > 0),
+          `${from} → ${destination} should offer another relation`,
+        ).toBe(true);
+      }
+    }
+  });
+
+  it('lets the learner continue from 无畏 through similar or opposite words', () => {
+    expect(candidates('无畏', 'similar')).toContain('勇敢');
+    expect(candidates('无畏', 'opposite')).toContain('胆怯');
+  });
+
   it('uses selected anchors and avatar in deterministic story content', () => {
     const beat = storyBeat({ beat:0, anchors:['英勇','线索'], avatar:'岚' });
     expect(beat.zh).toContain('岚');
