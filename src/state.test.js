@@ -33,6 +33,30 @@ describe('prototype truth regressions', () => {
     expect(candidates('无畏', 'opposite')).toContain('胆怯');
   });
 
+  it('rotates a truthful subset across playthroughs without losing reciprocal return', () => {
+    const firstJourney = candidates('勇敢', 'similar', 0);
+    const nextJourney = candidates('勇敢', 'similar', 1);
+
+    expect(firstJourney).toHaveLength(3);
+    expect(nextJourney).toHaveLength(3);
+    expect(nextJourney).not.toEqual(firstJourney);
+    expect(candidates('英勇', 'similar', 2, '勇敢')).toContain('勇敢');
+  });
+
+  it('gives illuminated story words several meaningful exploration consequences', () => {
+    const storyWords = ['雾', '低语', '石桥', '耳语', '罗盘', '信', '脚印'];
+
+    for (const word of storyWords) {
+      const routes = ['similar', 'opposite', 'related', 'collocation']
+        .flatMap(relation => candidates(word, relation, 0));
+      expect(new Set(routes).size, `${word} should branch meaningfully`).toBeGreaterThanOrEqual(3);
+    }
+
+    expect(candidates('石桥', 'related')).toEqual(expect.arrayContaining(['河流', '道路']));
+    expect(candidates('罗盘', 'related')).toEqual(expect.arrayContaining(['方向', '北方']));
+    expect(candidates('脚印', 'related')).toEqual(expect.arrayContaining(['动物', '线索']));
+  });
+
   it('grows a new curated layer after each first map choice', () => {
     const firstLayer = new Set(candidates('地图', 'related'));
 
