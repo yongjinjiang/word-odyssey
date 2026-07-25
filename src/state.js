@@ -64,13 +64,23 @@ const dealWords = (words, variation, selected, limit=4) => {
   return [...kept, ...rotated].slice(0, limit);
 };
 
-export const anchorChoices = (visited, variation=0, selected=[]) => {
+export const anchorChoices = (visited, variation=0, selected=[], storyDiscovered=[]) => {
   const uniqueVisited = [...new Set(visited)].filter(word => WORDS[word] && COORDS[word]);
+  const storyPool = [...new Set(storyDiscovered)].filter(word => uniqueVisited.includes(word));
+  const claimedByStory = new Set(storyPool);
   return {
-    courage: dealWords(uniqueVisited.filter(word => COORDS[word].region === 'courage'), variation, selected),
-    map: dealWords(uniqueVisited.filter(word => COORDS[word].region === 'map'), variation + 1, selected),
-    story: dealWords(uniqueVisited.filter(word => COORDS[word].region === 'story'), variation + 2, selected),
+    courage: dealWords(uniqueVisited.filter(word => COORDS[word].region === 'courage' && !claimedByStory.has(word)), variation, selected),
+    map: dealWords(uniqueVisited.filter(word => COORDS[word].region === 'map' && !claimedByStory.has(word)), variation + 1, selected),
+    story: dealWords(storyPool, variation + 2, selected),
   };
+};
+
+export const storyExploreWord = ({ beat, anchors, avatar, ingredient, variation=0 }) => {
+  const content = storyBeat({ beat, anchors, avatar, ingredient });
+  return content.words.find(word =>
+    COORDS[word]?.region === 'story'
+    && Object.keys(RELATIONS).some(relation => candidates(word, relation, variation).length),
+  ) || null;
 };
 
 const rotateChoices = (pool, variation, preferred) => {

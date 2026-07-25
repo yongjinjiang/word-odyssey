@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { anchorChoices, candidates, COORDS, DIRECTOR_OUTCOMES, edgeMatchesHistory, pauseState, recordTraversal, resumeState, storyBeat, storyReady } from './state.js';
+import { anchorChoices, candidates, COORDS, DIRECTOR_OUTCOMES, edgeMatchesHistory, pauseState, recordTraversal, resumeState, storyBeat, storyExploreWord, storyReady } from './state.js';
 
 describe('prototype truth regressions', () => {
   it('supports the canonical semantic routes and no false portal edge', () => {
@@ -59,8 +59,9 @@ describe('prototype truth regressions', () => {
 
   it('feeds newly explored story words into a bounded, varied anchor deal', () => {
     const visited = ['勇敢', '英勇', '地图', '线索', '低语', '耳语', '石桥', '迷路', '消息'];
-    const first = anchorChoices(visited, 0, ['勇敢', '低语']);
-    const next = anchorChoices(visited, 1, ['勇敢', '低语']);
+    const storyDiscoveries = ['低语', '耳语', '石桥', '迷路', '消息'];
+    const first = anchorChoices(visited, 0, ['勇敢', '低语'], storyDiscoveries);
+    const next = anchorChoices(visited, 1, ['勇敢', '低语'], storyDiscoveries);
 
     expect(first.courage).toContain('勇敢');
     expect(first.story).toContain('低语');
@@ -68,6 +69,32 @@ describe('prototype truth regressions', () => {
     expect(first.story.length).toBeGreaterThanOrEqual(3);
     expect(first.story.length).toBeLessThanOrEqual(4);
     expect(next.story).not.toEqual(first.story);
+  });
+
+  it('keeps words revealed from a story exploration together even across semantic regions', () => {
+    const discovered = ['勇敢', '地图', '线索', '雾', '迷路', '山谷', '方向'];
+    const choices = anchorChoices(discovered, 0, [], ['雾', '迷路', '山谷', '方向']);
+
+    expect(choices.story).toEqual(expect.arrayContaining(['雾', '迷路', '山谷', '方向']));
+    expect(choices.map).not.toContain('山谷');
+    expect(choices.map).not.toContain('方向');
+  });
+
+  it('starts header exploration from a meaningful word in the current story beat', () => {
+    expect(storyExploreWord({
+      beat: 0,
+      anchors: ['勇敢', '线索'],
+      avatar: '凯',
+      ingredient: '发光的罗盘',
+      variation: 0,
+    })).toBe('雾');
+    expect(storyExploreWord({
+      beat: 1,
+      anchors: ['勇敢', '线索'],
+      avatar: '凯',
+      ingredient: '发光的罗盘',
+      variation: 0,
+    })).toBe('低语');
   });
 
   it('grows a new curated layer after each first map choice', () => {
