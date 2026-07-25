@@ -14,3 +14,8 @@
 .final-actions button:first-child{background:#3f351f;border-color:var(--gold)}
 .final-actions button svg{grid-row:1/3;width:15px;align-self:center}
 .final-actions button small{font-size:6px;color:#a29472;align-self:start}
+.constellation.with-story{grid-template-columns:repeat(3,1fr);max-width:1180px;gap:14px}
+.with-story .anchor-region{min-height:190px;padding:38px 10px 14px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));place-items:center;gap:8px}
+.with-story .anchor-region>label{width:100%;text-align:center}
+.with-story .anchor-region>label small{font:6px 'DM Sans';letter-spacing:.1em;color:#667f6e;margin-left:5px}
+.with-story .word-node{min-width:88px;min-height:68px;padding:7px}

@@ -55,6 +55,24 @@ export const COORDS = Object.freeze({
 export const storyReady = (visited, hasMapRegion) =>
   hasMapRegion && visited.some(word => word !== '地图' && COORDS[word]?.region === 'map');
 
+const dealWords = (words, variation, selected, limit=4) => {
+  const kept = selected.filter(word => words.includes(word));
+  const remaining = words.filter(word => !kept.includes(word));
+  if (!remaining.length) return kept.slice(0, limit);
+  const start = Math.abs(variation) % remaining.length;
+  const rotated = Array.from({ length: remaining.length }, (_, index) => remaining[(start + index) % remaining.length]);
+  return [...kept, ...rotated].slice(0, limit);
+};
+
+export const anchorChoices = (visited, variation=0, selected=[]) => {
+  const uniqueVisited = [...new Set(visited)].filter(word => WORDS[word] && COORDS[word]);
+  return {
+    courage: dealWords(uniqueVisited.filter(word => COORDS[word].region === 'courage'), variation, selected),
+    map: dealWords(uniqueVisited.filter(word => COORDS[word].region === 'map'), variation + 1, selected),
+    story: dealWords(uniqueVisited.filter(word => COORDS[word].region === 'story'), variation + 2, selected),
+  };
+};
+
 const rotateChoices = (pool, variation, preferred) => {
   if (pool.length <= 3) return pool;
   const start = Math.abs(variation) % pool.length;

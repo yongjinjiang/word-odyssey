@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { candidates, COORDS, DIRECTOR_OUTCOMES, edgeMatchesHistory, pauseState, recordTraversal, resumeState, storyBeat, storyReady } from './state.js';
+import { anchorChoices, candidates, COORDS, DIRECTOR_OUTCOMES, edgeMatchesHistory, pauseState, recordTraversal, resumeState, storyBeat, storyReady } from './state.js';
 
 describe('prototype truth regressions', () => {
   it('supports the canonical semantic routes and no false portal edge', () => {
@@ -55,6 +55,19 @@ describe('prototype truth regressions', () => {
     expect(candidates('石桥', 'related')).toEqual(expect.arrayContaining(['河流', '道路']));
     expect(candidates('罗盘', 'related')).toEqual(expect.arrayContaining(['方向', '北方']));
     expect(candidates('脚印', 'related')).toEqual(expect.arrayContaining(['动物', '线索']));
+  });
+
+  it('feeds newly explored story words into a bounded, varied anchor deal', () => {
+    const visited = ['勇敢', '英勇', '地图', '线索', '低语', '耳语', '石桥', '迷路', '消息'];
+    const first = anchorChoices(visited, 0, ['勇敢', '低语']);
+    const next = anchorChoices(visited, 1, ['勇敢', '低语']);
+
+    expect(first.courage).toContain('勇敢');
+    expect(first.story).toContain('低语');
+    expect(first.story.every(word => ['低语', '耳语', '石桥', '迷路', '消息'].includes(word))).toBe(true);
+    expect(first.story.length).toBeGreaterThanOrEqual(3);
+    expect(first.story.length).toBeLessThanOrEqual(4);
+    expect(next.story).not.toEqual(first.story);
   });
 
   it('grows a new curated layer after each first map choice', () => {
