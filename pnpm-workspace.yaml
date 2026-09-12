@@ -1,0 +1,4 @@
+overrides:
+  "browserslist@<4.28.7": "^4.28.7"
+  "baseline-browser-mapping@<2.11.0": "^2.11.0"
+  "brace-expansion@>=4.0.0 <5.0.9": "^5.0.9"

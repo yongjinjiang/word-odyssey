@@ -23,6 +23,6 @@
     "eslint-plugin-react-hooks": "latest",
     "eslint-plugin-react-refresh": "latest",
     "globals": "latest",
-    "vitest": "latest"
+    "vitest": "^4.1.11"
   }
 }
